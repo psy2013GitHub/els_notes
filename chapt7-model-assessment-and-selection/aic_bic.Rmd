@@ -1,0 +1,65 @@
+---
+title: "aic/bic"
+author: "deng.zhou"
+date: "2016/12/14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## 使用training数据固定$X$对$Y$求期望来估计泛化误差
+假设train data是 $X$, $Y_0$，那么有  
+$\overline{err} = \sum{L(\hat{y_i}, y_{0i})}$  
+如果新得(未出现得)数据是 $X$, $Y_1$，那么有  
+$Err = \sum{L(\hat{y_i}, y_{1i})}$   
+$Err$ 和 $\overline{err}$得关系是  
+\begin{eqnarray*}
+  Err - \overline{err} \equiv op  
+\end{eqnarray*}
+对上式求对Y得期望  
+$E_y(Err) - E_y(\overline{err}) = E_y(op)$  
+有人证明。。。。  
+\begin{eqnarray*}
+  E_y(op) &=& \frac{2}{N} \cdot \sum{Cov(\hat{y_i}, y_i)}   
+\end{eqnarray*}
+当linear model时 $H=(X^TX)^{-1}X^TY$，  
+\begin{eqnarray*}
+  E_y(op) &=& \frac{2}{N} \cdot \sum{Cov(\hat{y_i}, y_i)}
+          &=& \frac{2}{N} \cdot \sum{Cov(x_i^TH, y_i)}
+          &=& \frac{2}{N} \cdot \sum{x_i^THCov(y_i, y_i)}
+          &=& \frac{2}{N} \cdot tr(XH)
+\end{eqnarray*}
+## 当err是用负对数似然表示时, 同时 $N \to \infty$时
+\begin{eqnarray*}
+  E_y{Err} & = & E_y{\log{likelihood}} \\
+  E_y{\overline{err}} & = & \log{likelihood} \\
+\end{eqnarray*}
+此时，
+\begin{eqnarray*}
+        E_y{Err} & = & E_y{\overline{err}} + E_y(op) \\
+                 & = & E_y{\overline{err}} + \frac{2}{N} \cdot \sum{Cov(\hat{y_i}, y_i)}   
+\end{eqnarray*}
+## AIC  
+### 定义：  
+\begin{eqnarray*}
+  －\frac{2}{N} \cdot loglik + 2 \cdot \frac{d}{N}
+\end{eqnarray*}
+## BIC  
+### 定义：  
+\begin{eqnarray*}
+  -2 \cdot loglik + \log{N} \cdot d
+\end{eqnarray*}
+### 由来：
+$$ obj : \max P(M_k|D) $$
+\begin{eqnarray*}
+  P(M_k|D) &\varpropto& P(M_k, D) \\
+           &=& P(M_k) \cdot P(D|M_k)  \\
+           &=& P(M_k) \cdot \int P(D|\theta, M_k)P(\theta|M_k) d_{\theta}
+\end{eqnarray*}
+
+上式积分难以计算，使用laplace近似
+\begin{eqnarray*}
+  \log{P(D|M_k)} = \log{P(D|\hat{\theta},M_k)} - \frac{d_m}{2} \cdot \log{N} + O(1) 
+\end{eqnarray*}
+### 与BIC得关系
