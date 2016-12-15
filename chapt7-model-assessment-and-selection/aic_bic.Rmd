@@ -23,16 +23,29 @@ $E_y(Err) - E_y(\overline{err}) = E_y(op)$
 \begin{eqnarray*}
   E_y(op) &=& \frac{2}{N} \cdot \sum{Cov(\hat{y_i}, y_i)}   
 \end{eqnarray*}
-当linear model时 $H=(X^TX)^{-1}X^TY$，  
+当linear model时 
+\begin{eqnarray*}
+  \beta &=& (X^TX)^{-1}X^TY
+  H &=& X(X^TX)^{-1}X^TY
+  \hat{H} &=& HY
+\end{eqnarray*}
 \begin{eqnarray*}
   E_y(op) &=& \frac{2}{N} \cdot \sum{Cov(\hat{y_i}, y_i)}
-          &=& \frac{2}{N} \cdot \sum{Cov(x_i^TH, y_i)}
-          &=& \frac{2}{N} \cdot \sum{x_i^THCov(y_i, y_i)}
-          &=& \frac{2}{N} \cdot tr(XH)
+          &=& \frac{2}{N} \cdot \sum{Cov(x_i^T\beta[i], y_i)}
+          &=& \frac{2}{N} \cdot \sum{Cov(x_i^T(X^TX)^{-1}X^Ty_i, y_i)}
+          &=& \frac{2}{N} \cdot tr(HCov(Y,Y))
+          &=& \frac{2}{N} \cdot \sigma_{\varepsilon}^{2} \cdot tr(H)
+          &=& \frac{2}{N} \cdot \sigma_{\varepsilon}^{2} \cdot tr(X(X^TX)^{-1}X^T)
+          &=& \frac{2}{N} \cdot \sigma_{\varepsilon}^{2} \cdot tr(X^TX(X^TX)^{-1})
+          &=& \frac{2}{N} \cdot \sigma_{\varepsilon}^{2} \cdot tr(I_d)
+          &=& \frac{2}{N} \cdot d\sigma_{\varepsilon}^{2}
 \end{eqnarray*}
+Efron,1986 证明过，上式对于`linear model + square-loss`成立；  
+                       对于`linear model + log-loss`近似成立；  
+                       对于`0-1 loss`不成立，然而有得人仍然这样用—— ——
 ## 当err是用负对数似然表示时, 同时 $N \to \infty$时
 \begin{eqnarray*}
-  E_y{Err} & = & E_y{\log{likelihood}} \\
+  E_y{Err} & \approx & E_y{\log{likelihood}} \\
   E_y{\overline{err}} & = & \log{likelihood} \\
 \end{eqnarray*}
 此时，
@@ -40,11 +53,14 @@ $E_y(Err) - E_y(\overline{err}) = E_y(op)$
         E_y{Err} & = & E_y{\overline{err}} + E_y(op) \\
                  & = & E_y{\overline{err}} + \frac{2}{N} \cdot \sum{Cov(\hat{y_i}, y_i)}   
 \end{eqnarray*}
+
 ## AIC  
 ### 定义：  
 \begin{eqnarray*}
-  －\frac{2}{N} \cdot loglik + 2 \cdot \frac{d}{N}
+  －\frac{2}{N} \cdot loglik + 2\frac{d}{N}
 \end{eqnarray*}
+### 总结  
+AIC是对$E_y(Err)$在`linear model + log-loss`下得近似
 ## BIC  
 ### 定义：  
 \begin{eqnarray*}
@@ -58,8 +74,11 @@ $$ obj : \max P(M_k|D) $$
            &=& P(M_k) \cdot \int P(D|\theta, M_k)P(\theta|M_k) d_{\theta}
 \end{eqnarray*}
 
-上式积分难以计算，使用laplace近似
+上式后面得积分难以计算，使用laplace近似
 \begin{eqnarray*}
   \log{P(D|M_k)} = \log{P(D|\hat{\theta},M_k)} - \frac{d_m}{2} \cdot \log{N} + O(1) 
 \end{eqnarray*}
-### 与BIC得关系
+### 总结
+BIC就是假设对模型后面概率得比较（前提是假设模型得先验概率相等）
+### 与AIC得关系  
+对模型复杂度惩罚更高
