@@ -62,13 +62,14 @@ Efron,1986 证明过，上式对于`linear model + square-loss`成立；
 \end{eqnarray*}
 
 ### 总结  
-AIC是对$E_y(Err)$在`linear model + log-loss`下得近似
-## BIC  
+AIC是对$E_y(Err)$在`linear model + log-loss`下得近似  
+
+##BIC    
 ### 定义：  
 \begin{eqnarray*}
   -2 \cdot loglik + \log{N} \cdot d
 \end{eqnarray*}
-### 由来：
+### 由来：  
 $$ obj : \max P(M_k|D) $$
 \begin{eqnarray*}
   P(M_k|D) &\varpropto& P(M_k, D) \\
