@@ -8,7 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-## 使用training数据固定$X$对$Y$求期望来估计泛化误差
+## 使用training数据固定$X$，对$Y$求期望来估计泛化误差
 假设train data是 $X$, $Y_0$，那么有  
 $\overline{err} = \sum{L(\hat{y_i}, y_{0i})}$  
 如果新得(未出现得)数据是 $X$, $Y_1$，那么有  
@@ -23,27 +23,29 @@ $E_y(Err) - E_y(\overline{err}) = E_y(op)$
 \begin{eqnarray*}
   E_y(op) &=& \frac{2}{N} \cdot \sum{Cov(\hat{y_i}, y_i)}   
 \end{eqnarray*}
-当linear model时 
+特别得，当linear model时 
 \begin{eqnarray*}
-  \beta &=& (X^TX)^{-1}X^TY
-  H &=& X(X^TX)^{-1}X^TY
+  \beta &=& (X^TX)^{-1}X^TY \\
+  H &=& X(X^TX)^{-1}X^TY \\
   \hat{H} &=& HY
-\end{eqnarray*}
+\end{eqnarray*}  
+
 \begin{eqnarray*}
-  E_y(op) &=& \frac{2}{N} \cdot \sum{Cov(\hat{y_i}, y_i)}
-          &=& \frac{2}{N} \cdot \sum{Cov(x_i^T\beta[i], y_i)}
-          &=& \frac{2}{N} \cdot \sum{Cov(x_i^T(X^TX)^{-1}X^Ty_i, y_i)}
-          &=& \frac{2}{N} \cdot tr(HCov(Y,Y))
-          &=& \frac{2}{N} \cdot \sigma_{\varepsilon}^{2} \cdot tr(H)
-          &=& \frac{2}{N} \cdot \sigma_{\varepsilon}^{2} \cdot tr(X(X^TX)^{-1}X^T)
-          &=& \frac{2}{N} \cdot \sigma_{\varepsilon}^{2} \cdot tr(X^TX(X^TX)^{-1})
-          &=& \frac{2}{N} \cdot \sigma_{\varepsilon}^{2} \cdot tr(I_d)
-          &=& \frac{2}{N} \cdot d\sigma_{\varepsilon}^{2}
+  E_y(op) &=& \frac{2}{N} \cdot \sum{Cov(\hat{y_i}, y_i)} \\
+          &=& \frac{2}{N} \cdot \sum{Cov(x_i^T\beta[i], y_i)} \\
+          &=& \frac{2}{N} \cdot \sum{Cov(x_i^T(X^TX)^{-1}X^Ty_i, y_i)} \\
+          &=& \frac{2}{N} \cdot tr(HCov(Y,Y)) \\
+          &=& \frac{2}{N} \cdot \sigma_{\varepsilon}^{2} \cdot tr(H) \\
+          &=& \frac{2}{N} \cdot \sigma_{\varepsilon}^{2} \cdot tr(X(X^TX)^{-1}X^T) \\
+          &=& \frac{2}{N} \cdot \sigma_{\varepsilon}^{2} \cdot tr(X^TX(X^TX)^{-1}) \\
+          &=& \frac{2}{N} \cdot \sigma_{\varepsilon}^{2} \cdot tr(I_d) \\
+          &=& \frac{2}{N} \cdot d\sigma_{\varepsilon}^{2} \\
 \end{eqnarray*}
 Efron,1986 证明过，上式对于`linear model + square-loss`成立；  
                        对于`linear model + log-loss`近似成立；  
-                       对于`0-1 loss`不成立，然而有得人仍然这样用—— ——
-## 当err是用负对数似然表示时, 同时 $N \to \infty$时
+                       对于`0-1 loss`不成立，然而有得人仍然这样用—。—   
+
+###当err是用负对数似然表示时, 同时 $N \to \infty$时  
 \begin{eqnarray*}
   E_y{Err} & \approx & E_y{\log{likelihood}} \\
   E_y{\overline{err}} & = & \log{likelihood} \\
