@@ -2,7 +2,7 @@
 title: "aic/bic"
 author: "deng.zhou"
 date: "2016/12/14"
-output: html_document
+output: html_documents
 ---
 
 ```{r setup, include=FALSE}
@@ -54,6 +54,7 @@ Efron,1986 证明过，上式对于`linear model + square-loss`成立；
            \text{当 $N \to \infty$时} & \approx &  \log{like} + 2\frac{d}{N} \\
            \text{以上，我们推导出了AIC}
 \end{eqnarray*}
+
 
 ## AIC  
 ### 定义：  
