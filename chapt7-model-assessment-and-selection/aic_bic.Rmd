@@ -47,13 +47,12 @@ Efron,1986 证明过，上式对于`linear model + square-loss`成立；
 
 ###当err是用负对数似然表示时, 同时 $N \to \infty$时  
 \begin{eqnarray*}
-  E_y{Err} & \approx & E_y{\log{likelihood}} \\
-  E_y{\overline{err}} & = & \log{likelihood} \\
-\end{eqnarray*}
-此时，
-\begin{eqnarray*}
-        E_y{Err} & = & E_y{\overline{err}} + E_y(op) \\
-                 & = & E_y{\overline{err}} + \frac{2}{N} \cdot \sum{Cov(\hat{y_i}, y_i)}   
+  E_y(Err) & = & E_y(\log{like}) \\
+           & = & \hat{err} + \frac{2}{N} \cdot \sum{Cov(\hat{y_i}, y_i)} \\ 
+           & = & \log{like} + \frac{2}{N} \cdot \sum{Cov(\hat{y_i}, y_i)} \\ 
+           \text{若满足上面特定条件} & = & \log{like} + \frac{2}{N} \cdot d\sigma_{\varepsilon}^{2} \\
+           \text{当 $N \to \infty$时} & \approx &  \log{like} + 2\frac{d}{N} \\
+           \text{以上，我们推导出了AIC}
 \end{eqnarray*}
 
 ## AIC  
@@ -61,6 +60,7 @@ Efron,1986 证明过，上式对于`linear model + square-loss`成立；
 \begin{eqnarray*}
   －\frac{2}{N} \cdot loglik + 2\frac{d}{N}
 \end{eqnarray*}
+
 ### 总结  
 AIC是对$E_y(Err)$在`linear model + log-loss`下得近似
 ## BIC  

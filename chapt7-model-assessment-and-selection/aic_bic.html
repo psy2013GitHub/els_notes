@@ -164,13 +164,12 @@ $(document).ready(function () {
 <div id="err--n-to-infty" class="section level3">
 <h3>当err是用负对数似然表示时, 同时 <span class="math inline">\(N \to \infty\)</span>时</h3>
 <span class="math display">\[\begin{eqnarray*}
-  E_y{Err} &amp; \approx &amp; E_y{\log{likelihood}} \\
-  E_y{\overline{err}} &amp; = &amp; \log{likelihood} \\
-\end{eqnarray*}\]</span>
-此时，
-<span class="math display">\[\begin{eqnarray*}
-        E_y{Err} &amp; = &amp; E_y{\overline{err}} + E_y(op) \\
-                 &amp; = &amp; E_y{\overline{err}} + \frac{2}{N} \cdot \sum{Cov(\hat{y_i}, y_i)}   
+  E_y(Err) &amp; = &amp; E_y(\log{like}) \\
+           &amp; = &amp; \hat{err} + \frac{2}{N} \cdot \sum{Cov(\hat{y_i}, y_i)} \\ 
+           &amp; = &amp; \log{like} + \frac{2}{N} \cdot \sum{Cov(\hat{y_i}, y_i)} \\ 
+           \text{若满足上面特定条件} &amp; = &amp; \log{like} + \frac{2}{N} \cdot d\sigma_{\varepsilon}^{2} \\
+           \text{当 $N \to \infty$时} &amp; \approx &amp;  \log{like} + 2\frac{d}{N} \\
+           \text{以上，我们推导出了AIC}
 \end{eqnarray*}\]</span>
 </div>
 </div>
