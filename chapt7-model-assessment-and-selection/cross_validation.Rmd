@@ -1,0 +1,36 @@
+---
+title: "cross_validation"
+author: "deng.zhou"
+date: "2016年12月20日"
+output: html_document
+---
+
+
+##定义：  
+  - cross validation 预测得是 expected prediction err $Err$，而不是conditional prediction error $Err|\tau$，因为每次得trainig data不同  
+  
+  - 当k=1(leave one out cv)时，因为每次得training data大致相同几乎等于所有traning data导致bias比较小, test data不同导致variance很大；当k比较大时bias比较大,variance比较小
+    
+  - k得选择与learning-curve有关
+    
+  
+##Generalized CV(GCV)：  
+  为了降低LOOCV得计算复杂度，对于某些问题，GCV能有效逼近LOOCV $Err$  
+  例如:  
+        
+      \begin{eqnarray*}
+        \text{假设 L=mse, M=LinearRegression}
+        S &=& X(X^TX)^{-1}X^T
+        \hat{Y} &=& SY
+        \text{let A=X^TX, then} S &=& XA^{-1}X^T
+        \hat{f}^{-i} &=& S_{-i}Y_{-i}
+                     &=& (X_{-i}^TX_{-i})^{-1}X_{-i}^TY_{-i}
+                     &=& (X^TX -x_i^Tx_i)^{-1}(X^TY -x_iy_i)
+        \text{and, } s_{ii} &=& x_i^{T}A^{-1}x_i
+        \text{the rest of the proof is trival...}
+      \end{eqnarray*}  
+  最后:  
+      [Deep Mind公布了他们得CV近似](https://github.com/HDI-Project/DeepMining)  
+        
+##如何正确得做CV:  
+unsupervised方法可以用所有traning data。。。因为与class label
