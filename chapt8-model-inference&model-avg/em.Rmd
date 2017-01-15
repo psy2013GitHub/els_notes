@@ -1,0 +1,36 @@
+---
+title: "em"
+author: "deng.zhou"
+date: "2017/1/14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## why EM?
+
+本质是考虑latent data或missing data得mle  
+
+## Steps (from Andrew Ng) 
+$Z为未观测变量$  
+1, $求Q_{ti} = P(Z_i|D_i, \theta_t)$  
+2, $最大化下界 argmax_{\theta_{t+1}}(\sum\limits_i{ \sum\limits_{Z_i}{ Q_{ti} \cdot log\frac{P(D_i, Z_i|\theta)}{Q_{ti}}}})$  
+3, goto step1  
+
+## EM as a Maximization-Maximization Procedure  
+\begin{eqnarray*}
+Q_i是关于Z_i得概率密度函数 \\
+logP(D_i|\theta) &=& logP(D_i,Z_i|\theta) - log(Z_i|D_i, \theta) \\
+两边同时对Q_i求期望 \\
+左边：\sum{Q_i \cdot logP(D_i|\theta)} &=& logP(D_i|\theta) \\
+logP(D_i|\theta) &=& \sum{Q_i \cdot logP(D_i,Z_i|\theta)} - \sum{Q_i \cdot log(Z_i|D_i, \theta)} \\
+                 &=& \sum{Q_i \cdot log\frac{logP(D_i,Z_i|\theta)}{Q_i}} - \sum{Q_i \cdot \frac{logP(Z_i|D_i, \theta)}{Q_i}} \\
+                 &=&  \sum{Q_i \cdot log\frac{logP(D_i,Z_i|\theta)}{Q_i}} + KL(P(Z_i|D_i, \theta)||Q_i) \\
+因为KL>=0, \\
+logP(D_i|\theta) &>=& \sum{Q_i \cdot log\frac{logP(D_i,Z_i|\theta)}{Q_i}} \\
+即 \sum{Q_i \cdot log\frac{logP(D_i,Z_i|\theta)}{Q_i}} 是logP(D_i|\theta) 下界 \\
+\end{eqnarray*}  
+所以，E-step是固定$\theta_t$，此时logP(D_i\theta)大小固定，使KL项最小，得到当前最大下界    
+      M-step是固定$Q_ti$，使下界最大，此时KL项不为0，loglikelihood增加值大于下界增加值  

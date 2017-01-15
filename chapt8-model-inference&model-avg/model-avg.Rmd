@@ -1,0 +1,31 @@
+---
+title: "model-avg"
+author: "deng.zhou"
+date: "2017/1/16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## bagging
+
+> * 同一模型在不同bootstrap样本上拟合平均。
+> * 不能将投票结果当作分类概率，应该是每个基分类器概率平均。
+> * 对于非0/1 loss能够降低variance，保持bias不变。
+> * 对于0/1 loss能使好分类器更好，差分类器更差［见书中随机分类器例子］。
+> * 与boosting相比局限较大［见书中例子］
+
+## stacking  
+
+> * 将同一traning data上不同模型bayes后验加权平均。
+> * BIC就是模型后验，为求简单，可将BIC作为权值。
+> * 有时，如果用mse算权值$w_j$ [$min{\sum{(y_i - \sum{w_j \hat{f_j}(x_i)})^2}}$]，为避免选择复杂度最高模型，应做loov
+
+## bumping  
+
+> * 用某一boostrap模型替代整个traning data模型。
+> * 选择标准是traning error最小。
+> * 所有备选模型必须复杂度相同。
+> * 经典xor例子。 

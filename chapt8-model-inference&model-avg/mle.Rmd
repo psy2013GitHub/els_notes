@@ -1,0 +1,66 @@
+---
+title: "mle"
+author: "deng.zhou"
+date: "2017/1/14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Definition for mle (maximum likelihood estimation)
+
+data: $D={...(x_i, y_i)...}$  
+likelihood:   
+\begin{eqnarray*}
+\text{假设我们有模型M，参数为}\theta  \\
+L &=& \sum{P_M(D_i|\theta)}  \\
+\end{eqnarray*}  
+
+mle:
+\begin{eqnarray*}
+argmax_{\theta}{L}
+\end{eqnarray*} 
+
+## Properties  
+
+### Normality Asymptotic, 用于估计$\theta$置信区间  
+若用$\theta$表示真值，$\hat{\theta}$表示估计值  
+$\sqrt{n}(\hat{\theta} - \theta) \rightsquigarrow N((0, I^{−1}(\theta))$
+\begin{eqnarray*}
+informatrix matrix: I & = & 
+\end{eqnarray*}  
+
+#### proof   
+#####1, taylor $L'(\hat\theta)$ at $\theta$  
+\begin{eqnarray*}
+   0 = L'(\hat{\theta}) = L'(\theta) + (\hat{\theta} - \theta)L''(\theta) + ... \\
+   Hence \\
+   \sqrt{n}(\hat\theta - \theta) &\approx& \frac{\frac{1}{\sqrt{n}}L'(\theta)}{-\frac{1}{n}L''(\theta)} \\
+                              &\equiv& \frac{A}{B} \\
+   Now \\
+   A &=& \frac{1}{\sqrt(n)}L'(\theta) \\
+     &=& \sqrt{n} \cdot \frac{1}{n}\sum{S(\theta,D_i)} \\ 
+     &=& \sqrt{n}(\bar{S} - 0)  \\
+   B &=& -\frac{1}{n}L''(\theta) \\
+     &\longrightarrow^P& E(L''(\theta)) \\
+     &=& -I(\theta) \\
+\end{eqnarray*}  
+#####2, for A; by fisher information & score function S  
+$E(S) = 0, Var(S) = I(\theta)$   
+hence, by central limit theorem    
+$A \rightsquigarrow N(0, \sqrt{I(\theta)})$   
+
+#####3, for A/B; by [Slutsky lemma](https://maikolsolis.wordpress.com/2012/05/19/slutskys-lemma-continuous-mapping-theorem-uniform-weak-convergence/)
+\begin{eqnarray*}
+A/B &\rightsquigarrow& \frac{\sqrt{I(\theta)}Z}(I(\theta)) \\
+    &=& \frac{Z}{\sqrt{I(\theta)}} \\
+    &=& N(0, \frac{1}{I(\theta)}) \\
+\end{eqnarray*}  
+
+#####So,
+$\sqrt{n}(\hat{\theta} - \theta) \rightsquigarrow N((0, I^{−1}(\theta))$
+
+## Properties
+
