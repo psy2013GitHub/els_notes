@@ -1,0 +1,76 @@
+---
+title: "chapt9"
+author: "deng.zhou"
+date: "2017/1/14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## GAM (generalized additive model)
+### formula  
+$$g[\mu(X)] = \alpha + f_1{X_1} + ... + f_p{X_p}$$
+
+### fit (back-fiting)
+
+\begin{eqnarray*}
+
+while f_j(X_j) 变化教大  \\
+  for j in 0:p  \\
+    固定其他f(x)，scatter-smooth 拟合f_j(X_j)  \\  
+    
+\end{eqnarray*} 
+
+### 特别得当是分类任务时
+必须改变y->z，做加权scatter-smooth，见additive lr例子  
+没太懂algorithm 9.2没看懂，有机会看看Hastie and Tibshirani(1990)
+
+## 决策树  
+### loss function [注意以节点m为单位]  
+#### 如下：
+> acc
+> cross-entrophy $\sum\limits_{k}^{K}\sum\limits_{k',k'!=k}p_{mk}p_{m_k'} = \sum_{k}^{K}p_{mk}(1-p_{mk})$  
+> gini
+
+#### 为什么不用acc？
+考虑
+  （400,400）-> （300,100）+（100,300）  
+和
+  （400,400）-> （200,400）+（200,0）
+哪个更好？
+
+### loss matrix  
+两种方法
+##### 给cost function加权 $\sumL_{kk'}{L_{kk'}*gini(kk')}$
+e.g L_01（表示将1判成1）, L10（表示将1判成0）
+（400,400）-> （300,100）+（100,300）
+gini-decrease = 400 * (L_01 * 3/4 * 1/4 + L_10 * 1/4 * 3/4) + 400 * (L_01 * 1/4 * 3/4 + L_10 * 3/4 * 1/4) - (400 + 400) * (L_01 * 1/2 * 1/2 + L_10 * 1/2 * 1/2)
+你会发现对二分类来说，这种方法无用（只是加了系数L_01 + L_10）  
+当然对于多分类来说是有用的  
+##### re-weight
+常用的方法，给样本设置权重，二分类好说，但是多分类来说较难设计 
+
+### 不稳定，方差大  
+如果根节点错误，那么。。。
+解决办法是使用bagging和boosting
+
+### 不够平滑  
+MARS方法平滑
+
+## PRIM: Bump Hunting
+如果将决策树看作是对特征空间的切割，那么何不直接寻找最优子空间呢？  
+只能用于二分类和回归，多分类转为多个二分类  
+
+## MARS  
+### 拟合  
+基：C = {(X_j - t)_+, (t - X_j)_+}  t={x_{1,j}, x_{2,j}, ...}, j={特征维度}  
+拟合：每次加入一个pair，实际将 h_m(X) * (X_j - t)_+ 和 h_m(X) * (t - X_j)_+, h_m\in{1, 已经入选的任意base}，j选取的标准是使cost function最小  
+迭代停止条件：达到预先设置的term数  
+### 过拟合  
+backward deletion（评价标准：small cost function increase，方法：CV或GCV）
+### 与CART异同  
+> 同一个model term允许多个交互，相当于可以多叉  
+> 可以捕获additive model  
+
