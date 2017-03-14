@@ -74,3 +74,5 @@ backward deletion（评价标准：small cost function increase，方法：CV或
 > 同一个model term允许多个交互，相当于可以多叉  
 > 可以捕获additive model  
 
+### missing val
+http://pubmedcentralcanada.ca/pmcc/articles/PMC4121561/
