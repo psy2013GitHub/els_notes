@@ -1,0 +1,37 @@
+---
+title: "chapt10"
+author: "deng.zhou"
+date: "2017/3/21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Adaboost (略)
+
+## 前向分步算法  
+第m步：$min(\sum{L_i - f_m(x_i)})$  
+$L_i=\sum{1}{m-1}{f_j}$  
+$如果是决策树，f_j就是x_i落入的根节点$  
+
+## Adaboost就是以exp loss作为loss的前向分布算法  
+### 为什么是exp loss ? 
+### 有没有其他loss ?  
+
+## 对于任意loss的boosting trees算法  
+### 对于回归  
+构建拟合残差得决策树  
+### 对于分类  
+构建使用exp loss作为impurity的决策树
+#### 但是这样需要改变原有的那些决策树算法，有没有其他办法？
+有，使用回归树（拟合交叉熵等loss function）来做分类（比如xgboost），然后再使用logit变换得到概率
+
+## gradient boost（专门用于回归树）  
+使用决策树拟合负梯度  
+
+## 解释工具  
+### imortance ranking  
+### dependecy plot （将其他变量作用平均，但不是忽略其他变量）  
+$\bar{f_S}(X_S) = \frac{1}{N}\sum{i=1}{N}f(X_S, x_iC)$
